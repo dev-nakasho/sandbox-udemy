@@ -1,5 +1,7 @@
 import "./styles.css";
 
+/* 
+// 自力で実装 
 // 追加ボタン -------------------------------------
 const add_btn = document.querySelector("#add");
 
@@ -90,3 +92,87 @@ function backHandler() {
   // 未完了リストに対してイベント登録しておく
   registDoneListener();
 }
+*/
+// 模範を確認したうえで自力で進める
+// 追加ボタン、inputエリアの要素を取得
+const inputText = document.getElementById("inputText");
+const addBtn = document.getElementById("addBtn");
+
+// 追加ボタン押下時のイベントを登録する。
+addBtn.addEventListener("click", () => {
+  // 追加したい要素を作成する
+  const li = document.createElement("li");
+  const div = document.createElement("div");
+  div.setAttribute("class", "list-row");
+  const p = document.createElement("p");
+
+  // ボタンを作成する
+  const backButton = document.createElement("button");
+  backButton.setAttribute("id", "backBtn");
+  backButton.innerHTML = "戻す";
+
+  const completeButton = document.createElement("button");
+  completeButton.setAttribute("id", "doneBtn");
+  completeButton.innerHTML = "完了";
+
+  const deleteButton = document.createElement("button");
+  deleteButton.setAttribute("id", "deleteBtn");
+  deleteButton.innerHTML = "削除";
+
+  // 戻るボタン押下時のイベントを作成する
+  backButton.addEventListener("click", () => {
+    const contents = backButton.parentElement.querySelector("p").innerHTML;
+    document
+      .getElementById("completeLists")
+      .removeChild(backButton.parentElement.parentElement);
+
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    div.setAttribute("class", "list-row");
+    const p = document.createElement("p");
+    div.appendChild(p);
+    div.appendChild(completeButton);
+    div.appendChild(deleteButton);
+    li.appendChild(div);
+    // 入力したTODOを設定する
+    p.innerHTML = contents;
+    document.getElementById("incompleteLists").appendChild(li);
+  });
+
+  // 完了ボタン押下時のイベントを作成する
+  completeButton.addEventListener("click", () => {
+    const contents = completeButton.parentElement.querySelector("p").innerHTML;
+    document
+      .getElementById("incompleteLists")
+      .removeChild(deleteButton.parentElement.parentElement);
+
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    div.setAttribute("class", "list-row");
+    const p = document.createElement("p");
+    div.appendChild(p);
+    div.appendChild(backButton);
+    li.appendChild(div);
+    // 入力したTODOを設定する
+    p.innerHTML = contents;
+    document.getElementById("completeLists").appendChild(li);
+  });
+
+  // 削除ボタン押下時のイベントを作成する
+  deleteButton.addEventListener("click", () => {
+    document
+      .getElementById("incompleteLists")
+      .removeChild(deleteButton.parentElement.parentElement);
+  });
+  // 未完了エリアにリストを追加する
+  div.appendChild(p);
+  div.appendChild(completeButton);
+  div.appendChild(deleteButton);
+  li.appendChild(div);
+  // 入力したTODOを設定する
+  p.innerHTML = inputText.value;
+  // 未完了エリアにTODOを追加する
+  document.getElementById("incompleteLists").appendChild(li);
+  // インプットエリアのテキストを削除する
+  inputText.value = "";
+});
